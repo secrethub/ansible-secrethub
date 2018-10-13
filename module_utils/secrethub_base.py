@@ -6,7 +6,7 @@ from ansible.module_utils.client import Client
 
 class BaseModule(AnsibleModule):
 
-    def __init__(self, argument_spec):
+    def __init__(self, argument_spec, supports_check_mode=False):
         """ Initialize a new SecretHub module.
 
         This class can be extended to create an Ansible module that uses
@@ -40,7 +40,7 @@ class BaseModule(AnsibleModule):
                 },
             }
         )
-        super(BaseModule, self).__init__(argument_spec)
+        super(BaseModule, self).__init__(argument_spec, supports_check_mode=supports_check_mode)
 
     def fail(self, msg):
         """ Fail the module.

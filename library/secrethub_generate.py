@@ -95,29 +95,28 @@ class GenerateModule(BaseModule):
                 'type': "bool",
             }
         }
-        super(GenerateModule, self).__init__(argument_spec)
+        super(GenerateModule, self).__init__(argument_spec, supports_check_mode=True)
 
     def run(self):
-        try:
-            secret = self.client().generate(
-                self.params.get('path'),
-                self.params.get('length', 0),
-                self.params.get('symbols', False),
-            )
-            self.exit_json(
-                changed=True,
-                secret=secret,
-            )
-        except (CLIInaccessible, GenerateError) as e:
-            self.fail_json(
-                changed=False,
-                msg=str(e),
-            )
-        except ReadError as e:
-            self.fail_json(
-                changed=True,
-                msg=str(e),
-            )
+        if not self.check_mode:
+            try:
+                self.returns['secret'] = self.client().generate(
+                    self.params.get('path'),
+                    self.params.get('length', 0),
+                    self.params.get('symbols', False),
+                )
+            except (CLIInaccessible, GenerateError) as e:
+                self.fail_json(
+                    changed=False,
+                    msg=str(e),
+                )
+            except ReadError as e:
+                self.fail_json(
+                    changed=True,
+                    msg=str(e),
+                )
+        self.returns['changed'] = True
+        self.exit()
 
 
 def main():
