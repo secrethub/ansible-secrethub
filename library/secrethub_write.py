@@ -76,22 +76,24 @@ class WriteModule(BaseModule):
                 'no_log': True,
             }
         }
-        super(WriteModule, self).__init__(argument_spec=argument_spec)
+        super(WriteModule, self).__init__(argument_spec=argument_spec, supports_check_mode=True)
 
     def run(self):
-        try:
-            self.exit_json(
-                changed=True,
-                secret=self.client().write(
+        if not self.check_mode:
+            try:
+                self.client().write(
                     self.params.get('path'),
                     self.params.get('value'),
                 )
-            )
-        except (CLIInaccessible, WriteError) as e:
-            self.fail_json(
-                changed=False,
-                msg=str(e),
-            )
+            except (CLIInaccessible, WriteError) as e:
+                self.fail_json(
+                    changed=False,
+                    msg=str(e),
+                )
+        self.exit_json(
+            changed=True,
+            secret=self.params.get('value'),
+        )
 
 
 def main():
