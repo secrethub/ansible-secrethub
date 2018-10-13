@@ -68,7 +68,7 @@ class ReadModule(BaseModule):
                 'type': "str",
             },
         }
-        super(ReadModule, self).__init__(argument_spec)
+        super(ReadModule, self).__init__(argument_spec, supports_check_mode=True)
 
     def run(self):
         try:
