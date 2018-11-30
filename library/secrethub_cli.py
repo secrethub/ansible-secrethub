@@ -100,7 +100,7 @@ class CLIModule(BaseModule):
                 'default': 'latest',
             },
         }
-        super(CLIModule, self).__init__(argument_spec)
+        super(CLIModule, self).__init__(argument_spec, supports_check_mode=True)
 
     def run(self):
         """ Installs or upgrades the SecretHub CLI when needed.
@@ -121,10 +121,18 @@ class CLIModule(BaseModule):
         if self.params.get('state', 'present') == 'present':
             target_version = self.target_version()
             if current_version != target_version:
-                self.install(version=target_version)
+                self.returns.update({
+                    'changed': True,
+                })
+                if not self.check_mode:
+                    self.install(version=target_version)
         if self.params.get('state', 'present') == 'absent':
             if current_version is not None:
-                self.uninstall()
+                self.returns.update({
+                    'changed': True,
+                })
+                if not self.check_mode:
+                    self.uninstall()
         self.exit()
 
     def current_version(self):
@@ -273,7 +281,6 @@ class CLIModule(BaseModule):
         cleanup()
         os.chmod(self.bin_path(), 0o711)
         self.returns.update({
-            'changed': True,
             'version': self.current_version(),
         })
 
@@ -283,7 +290,6 @@ class CLIModule(BaseModule):
         try:
             os.remove(self.bin_path())
             self.returns.update({
-                'changed': True,
                 'version': self.current_version(),
             })
         except OSError as e:
