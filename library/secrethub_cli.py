@@ -150,7 +150,7 @@ class CLIModule(BaseModule):
             version, err = p.communicate()
             # TODO SHDEV-1098: Why does the CLI return the version on stderr?
             # Remove newline
-            return err[:-1]
+            return err[:-1].decode()
         except OSError as e:
             if e.errno == errno.EACCES:
                 self.fail('secrethub_cli: found {} but cannot execute: {}'.format(path, e))
@@ -187,7 +187,7 @@ class CLIModule(BaseModule):
             from urllib2 import urlopen
 
         try:
-            return urlopen('https://get.secrethub.io/releases/LATEST').read()
+            return urlopen('https://get.secrethub.io/releases/LATEST').read().decode()
         except IOError as e:
             self.fail('secrethub_cli: failed to fetch latest version: {}'.format(e))
 
