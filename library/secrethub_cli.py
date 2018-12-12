@@ -4,7 +4,6 @@ import platform
 import shutil
 import subprocess
 import tempfile
-import urllib
 import zipfile
 
 from ansible.module_utils.secrethub_base import BaseModule
@@ -243,8 +242,16 @@ class CLIModule(BaseModule):
             shutil.rmtree(tmp_dir)
 
         tmp_file = os.path.join(tmp_dir, 'secrethub-cli.zip')
+
         try:
-            urllib.urlretrieve(fetch_url, tmp_file)
+            # Python 3
+            from urllib.request import urlretrieve
+        except ImportError:
+            # Python 2
+            from urllib import urlretrieve
+
+        try:
+            urlretrieve(fetch_url, tmp_file)
         except (IOError, OSError) as e:
             cleanup()
             if e.errno == errno.EACCES:
