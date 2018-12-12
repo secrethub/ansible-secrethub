@@ -89,6 +89,7 @@ class GenerateModule(BaseModule):
             'length': {
                 'required': False,
                 'type': "int",
+                'default': 22,
             },
             'symbols': {
                 'required': False,
@@ -101,7 +102,7 @@ class GenerateModule(BaseModule):
         try:
             secret = self.client().generate(
                 self.params.get('path'),
-                self.params.get('length', 0),
+                self.params.get('length'),
                 self.params.get('symbols', False),
             )
             self.exit_json(
