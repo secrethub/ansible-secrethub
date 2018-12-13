@@ -4,7 +4,6 @@ import platform
 import shutil
 import subprocess
 import tempfile
-import urllib
 import zipfile
 
 from ansible.module_utils.secrethub_base import BaseModule
@@ -150,7 +149,7 @@ class CLIModule(BaseModule):
             version, err = p.communicate()
             # TODO SHDEV-1098: Why does the CLI return the version on stderr?
             # Remove newline
-            return err[:-1]
+            return err[:-1].decode()
         except OSError as e:
             if e.errno == errno.EACCES:
                 self.fail('secrethub_cli: found {} but cannot execute: {}'.format(path, e))
@@ -187,7 +186,7 @@ class CLIModule(BaseModule):
             from urllib2 import urlopen
 
         try:
-            return urlopen('https://get.secrethub.io/releases/LATEST').read()
+            return urlopen('https://get.secrethub.io/releases/LATEST').read().decode()
         except IOError as e:
             self.fail('secrethub_cli: failed to fetch latest version: {}'.format(e))
 
@@ -243,8 +242,16 @@ class CLIModule(BaseModule):
             shutil.rmtree(tmp_dir)
 
         tmp_file = os.path.join(tmp_dir, 'secrethub-cli.zip')
+
         try:
-            urllib.urlretrieve(fetch_url, tmp_file)
+            # Python 3
+            from urllib.request import urlretrieve
+        except ImportError:
+            # Python 2
+            from urllib import urlretrieve
+
+        try:
+            urlretrieve(fetch_url, tmp_file)
         except (IOError, OSError) as e:
             cleanup()
             if e.errno == errno.EACCES:
