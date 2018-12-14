@@ -9,7 +9,7 @@ See [the guide](https://secrethub.io/docs/getting-started/) on how to get starte
 
 To use the SecretHub modules in your playbooks, symlink or copy the `library` and `module_utils` directories to the root directory of your ansible project (next to your playbooks).
 
-```
+```sh
 $ git clone git@github.com:secrethub/ansible-secrethub.git
 $ ln -s <path to ansible-secrethub>/library <ansible project root>/library
 $ ln -s <path to ansible-secrethub>/module_utils <ansible project root>/module_utils
