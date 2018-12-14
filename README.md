@@ -23,23 +23,23 @@ Installs the SecretHub CLI.
 
 ##### Parameters
 
-|Parameter| Required | Choices| Default | Comments|
-|---|---|---|---|---|
-| install_dir | no | | | The path where the CLI is installed. This defaults to `/usr/local/secrethub/` on Unix systems and `C://Program Files/SecretHub/` on Windows. |
-| state | no | present<br>absent | present | The state present implies that the CLI should be installed if necessary. Absent implies that the CLI should be uninstalled if present. |
-| version | no | | latest | The version of the CLI that should be installed. When state is absent, version will be ignored. |
+| Parameter   | Required | Choices           | Default | Comments                                                                                                                                     |
+| ----------- | -------- | ----------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| install_dir | no       |                   |         | The path where the CLI is installed. This defaults to `/usr/local/secrethub/` on Unix systems and `C://Program Files/SecretHub/` on Windows. |
+| state       | no       | present<br>absent | present | The state present implies that the CLI should be installed if necessary. Absent implies that the CLI should be uninstalled if present.       |
+| version     | no       |                   | latest  | The version of the CLI that should be installed. When state is absent, version will be ignored.                                              |
 
 ##### Return values
 
-| Key  | Description |
-|---|---|
-| bin_path | The absolute path to the location of the installed binary. |
+| Key         | Description                                                                                                                                        |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| bin_path    | The absolute path to the location of the installed binary.                                                                                         |
 | install_dir | The absolute path to the directory in which the secrethub binary is installed. Add this directory to the PATH to make the CLI globally accessible. |
-| version | The currently installed version of the SecretHub CLI. |
+| version     | The currently installed version of the SecretHub CLI.                                                                                              |
 
 ##### Examples
 
-``` {.sourceCode .yaml+jinja}
+```{.sourceCode .yaml+jinja}
 # Default
 - name: Ensure the SecretHub CLI is installed
   secrethub_cli:
@@ -66,23 +66,23 @@ Reads a secret that is stored in SecretHub.
 
 ##### Parameters
 
-| Parameter | Required | Choices | Default | Comments |
-|---|---|---|---|---|
-| path | yes | | | The path of the secret. |
-| cli_path | no | | | The path to the CLI binary to use. To set this globally the environment variable `SECRETHUB_CLI_PATH` can be set. When omitted, a default of `/usr/local/secrethub/secrethub` or `C:/Program Files/SecretHub/secrethub.exe` (on Windows) is used. |
-| config_dir | no | | | The configuration directory to use. To set this globally the environment variable SECRETHUB_CONFIG_DIR can be set. This is where we look for a credential when it is not supplied trough the module. Defaults to a .secrethub directory in the home directory. |
-| credential | no | | | The credential used to decrypt your accounts encryption key. To set this globally the environment variable SECRETHUB_CREDENTIAL can be set. When omitted, the credential must be stored in the configuration directory. |
-| credential_passphrase | no | | | The passphrase to decrypt the credential with. To set this globally the environment variable SECRETHUB_CREDENTIAL_PASSPHRASE can be set. |
+| Parameter             | Required | Choices | Default | Comments                                                                                                                                                                                                                                                       |
+| --------------------- | -------- | ------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| path                  | yes      |         |         | The path of the secret.                                                                                                                                                                                                                                        |
+| cli_path              | no       |         |         | The path to the CLI binary to use. To set this globally the environment variable `SECRETHUB_CLI_PATH` can be set. When omitted, a default of `/usr/local/secrethub/secrethub` or `C:/Program Files/SecretHub/secrethub.exe` (on Windows) is used.              |
+| config_dir            | no       |         |         | The configuration directory to use. To set this globally the environment variable SECRETHUB_CONFIG_DIR can be set. This is where we look for a credential when it is not supplied trough the module. Defaults to a .secrethub directory in the home directory. |
+| credential            | no       |         |         | The credential used to decrypt your accounts encryption key. To set this globally the environment variable SECRETHUB_CREDENTIAL can be set. When omitted, the credential must be stored in the configuration directory.                                        |
+| credential_passphrase | no       |         |         | The passphrase to decrypt the credential with. To set this globally the environment variable SECRETHUB_CREDENTIAL_PASSPHRASE can be set.                                                                                                                       |
 
 ##### Return values
 
-| Key  | Description |
-|---|---|
+| Key    | Description                                |
+| ------ | ------------------------------------------ |
 | secret | The secret value stored in the given path. |
 
 ###### Examples
 
-``` {.sourceCode .yaml+jinja}
+```{.sourceCode .yaml+jinja}
 # Read a secret.
 - name: Read the database password
   secrethub_read:
@@ -96,24 +96,24 @@ Save a secret in SecretHub.
 
 ##### Parameters
 
-| Parameter | Required | Choices | Default | Comments |
-|---|---|---|---|---|
-| path | yes | | | The path of the secret. |
-| value | yes | | | The value of the secret. |
-| cli_path | no | | | The path to the CLI binary to use. To set this globally the environment variable `SECRETHUB_CLI_PATH` can be set. When omitted, a default of `/usr/local/secrethub/secrethub` or `C:/Program Files/SecretHub/secrethub.exe` (on Windows) is used. |
-| config_dir | no | | | The configuration directory to use. To set this globally the environment variable SECRETHUB_CONFIG_DIR can be set. This is where we look for a credential when it is not supplied trough the module. Defaults to a .secrethub directory in the home directory. |
-| credential | no | | | The credential used to decrypt your accounts encryption key. To set this globally the environment variable SECRETHUB_CREDENTIAL can be set. When omitted, the credential must be stored in the configuration directory. |
-| credential_passphrase | no | | | The passphrase to decrypt the credential with. To set this globally the environment variable SECRETHUB_CREDENTIAL_PASSPHRASE can be set. |
+| Parameter             | Required | Choices | Default | Comments                                                                                                                                                                                                                                                       |
+| --------------------- | -------- | ------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| path                  | yes      |         |         | The path of the secret.                                                                                                                                                                                                                                        |
+| value                 | yes      |         |         | The value of the secret.                                                                                                                                                                                                                                       |
+| cli_path              | no       |         |         | The path to the CLI binary to use. To set this globally the environment variable `SECRETHUB_CLI_PATH` can be set. When omitted, a default of `/usr/local/secrethub/secrethub` or `C:/Program Files/SecretHub/secrethub.exe` (on Windows) is used.              |
+| config_dir            | no       |         |         | The configuration directory to use. To set this globally the environment variable SECRETHUB_CONFIG_DIR can be set. This is where we look for a credential when it is not supplied trough the module. Defaults to a .secrethub directory in the home directory. |
+| credential            | no       |         |         | The credential used to decrypt your accounts encryption key. To set this globally the environment variable SECRETHUB_CREDENTIAL can be set. When omitted, the credential must be stored in the configuration directory.                                        |
+| credential_passphrase | no       |         |         | The passphrase to decrypt the credential with. To set this globally the environment variable SECRETHUB_CREDENTIAL_PASSPHRASE can be set.                                                                                                                       |
 
 ##### Return values
 
-| Key  | Description |
-|---|---|
+| Key    | Description                                |
+| ------ | ------------------------------------------ |
 | secret | The secret value stored in the given path. |
 
 ###### Examples
 
-``` {.sourceCode .yaml+jinja}
+```{.sourceCode .yaml+jinja}
 # Write a secret.
 # The db_pass variable is registered by an earlier process.
 # To generate a new password, use the secrethub_generate module.
@@ -129,19 +129,19 @@ Generates a random secret that is stored in SecretHub.
 
 ##### Parameters
 
-| Parameter | Required | Choices | Default | Comments |
-|---|---|---|---|---|
-| path | yes | | | The path of the secret. |
-| length | no | | 22 | The length of the secret. |
-| symbols | no | yes<br>no | no | A boolean indicating whether the secret is allowed to contain symbols. |
-| cli_path | no | | | The path to the CLI binary to use. To set this globally the environment variable `SECRETHUB_CLI_PATH` can be set. When omitted, a default of `/usr/local/secrethub/secrethub` or `C:/Program Files/SecretHub/secrethub.exe` (on Windows) is used. |
-| config_dir | no | | | The configuration directory to use. To set this globally the environment variable SECRETHUB_CONFIG_DIR can be set. This is where we look for a credential when it is not supplied trough the module. Defaults to a .secrethub directory in the home directory. |
-| credential | no | | | The credential used to decrypt your accounts encryption key. To set this globally the environment variable SECRETHUB_CREDENTIAL can be set. When omitted, the credential must be stored in the configuration directory. |
-| credential_passphrase | no | | | The passphrase to decrypt the credential with. To set this globally the environment variable SECRETHUB_CREDENTIAL_PASSPHRASE can be set. |
+| Parameter             | Required | Choices   | Default | Comments                                                                                                                                                                                                                                                       |
+| --------------------- | -------- | --------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| path                  | yes      |           |         | The path of the secret.                                                                                                                                                                                                                                        |
+| length                | no       |           | 22      | The length of the secret.                                                                                                                                                                                                                                      |
+| symbols               | no       | yes<br>no | no      | A boolean indicating whether the secret is allowed to contain symbols.                                                                                                                                                                                         |
+| cli_path              | no       |           |         | The path to the CLI binary to use. To set this globally the environment variable `SECRETHUB_CLI_PATH` can be set. When omitted, a default of `/usr/local/secrethub/secrethub` or `C:/Program Files/SecretHub/secrethub.exe` (on Windows) is used.              |
+| config_dir            | no       |           |         | The configuration directory to use. To set this globally the environment variable SECRETHUB_CONFIG_DIR can be set. This is where we look for a credential when it is not supplied trough the module. Defaults to a .secrethub directory in the home directory. |
+| credential            | no       |           |         | The credential used to decrypt your accounts encryption key. To set this globally the environment variable SECRETHUB_CREDENTIAL can be set. When omitted, the credential must be stored in the configuration directory.                                        |
+| credential_passphrase | no       |           |         | The passphrase to decrypt the credential with. To set this globally the environment variable SECRETHUB_CREDENTIAL_PASSPHRASE can be set.                                                                                                                       |
 
 ##### Examples
 
-``` {.sourceCode .yaml+jinja}
+```{.sourceCode .yaml+jinja}
 # Generate a 22 characters long secret of random numbers and/or letters.
 - name: Generate a random database password
   secrethub_generate:
@@ -150,6 +150,6 @@ Generates a random secret that is stored in SecretHub.
 
 ##### Return values
 
-| Key  | Description |
-|---|---|
+| Key    | Description           |
+| ------ | --------------------- |
 | secret | The generated secret. |
