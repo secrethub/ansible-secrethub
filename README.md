@@ -1,3 +1,8 @@
+[![codeclimate maintainability badge](https://api.codeclimate.com/v1/badges/7649852aa7650e331b2a/maintainability)](https://codeclimate.com/github/secrethub/ansible-secrethub/maintainability)
+[![codacy badge](https://api.codacy.com/project/badge/Grade/297a2289bff74c49be800d973eea2923)](https://www.codacy.com/app/SecretHub/ansible-secrethub)
+[![codebeat badge](https://codebeat.co/badges/78df7e54-0cc2-4672-a843-a49c92135892)](https://codebeat.co/projects/github-com-secrethub-ansible-secrethub-master)
+[![codeclimate test coverage badge](https://api.codeclimate.com/v1/badges/7649852aa7650e331b2a/test_coverage)](https://codeclimate.com/github/secrethub/ansible-secrethub/test_coverage)
+
 # SecretHub Ansible modules
 
 ## SecretHub
