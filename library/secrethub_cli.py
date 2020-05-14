@@ -1,8 +1,10 @@
 import errno
+import json
 import os
 import platform
 import shutil
 import subprocess
+import tarfile
 import tempfile
 import zipfile
 
@@ -186,7 +188,7 @@ class CLIModule(BaseModule):
             from urllib2 import urlopen
 
         try:
-            return urlopen('https://get.secrethub.io/releases/LATEST').read().decode()
+            return json.load(urlopen('https://api.github.com/repos/secrethub/secrethub-cli/releases/latest'))['tag_name']
         except IOError as e:
             self.fail('secrethub_cli: failed to fetch latest version: {}'.format(e))
 
@@ -198,7 +200,7 @@ class CLIModule(BaseModule):
         bin_name = 'secrethub'
         if platform.system() == 'Windows':
             bin_name = 'secrethub.exe'
-        return os.path.join(self.install_dir(), bin_name)
+        return os.path.join(self.install_dir(), "bin", bin_name)
 
     def install_dir(self):
         """ Get the installation directory for the CLI.
@@ -230,18 +232,21 @@ class CLIModule(BaseModule):
                               and a function to cleanup the temporary files.
         :rtype: (str, lambda)
         """
-        fetch_url = 'https://get.secrethub.io/releases/{}/secrethub-{}-{}-{}.zip'.format(
+        ext = 'zip' if platform.system() == 'Windows' else 'tar.gz'
+
+        fetch_url = 'https://github.com/secrethub/secrethub-cli/releases/download/{}/secrethub-{}-{}-{}.{}'.format(
             version,
             version,
             str(platform.system()).lower(),
-            'amd64' if str(platform.architecture()[0]).lower() == '64bit' else 'x86'
+            'amd64' if str(platform.architecture()[0]).lower() == '64bit' else 'x86',
+            ext,
         )
         tmp_dir = tempfile.mkdtemp()
 
         def cleanup():
             shutil.rmtree(tmp_dir)
 
-        tmp_file = os.path.join(tmp_dir, 'secrethub-cli.zip')
+        tmp_file = os.path.join(tmp_dir, 'secrethub-cli.{}'.format(ext))
 
         try:
             # Python 3
@@ -269,8 +274,13 @@ class CLIModule(BaseModule):
         """
         tmp_file, cleanup = self.fetch_binary(version)
         try:
-            with zipfile.ZipFile(tmp_file, 'r') as cli_zip:
-                cli_zip.extractall(path=self.install_dir())
+            if tmp_file.endswith('.zip'):
+                opener, mode = zipfile.ZipFile, 'r'
+            else:
+                opener, mode = tarfile.open, 'r:gz'
+
+            with opener(tmp_file, mode) as archive:
+                archive.extractall(path=self.install_dir())
         except (IOError, OSError) as e:
             cleanup()
             if e.errno == errno.EACCES:

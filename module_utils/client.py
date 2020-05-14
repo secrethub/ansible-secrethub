@@ -13,15 +13,15 @@ class Client:
         The CLI will be open-sourced soon.
 
         :param str cli_path: The path of the SecretHub CLI to use. When the cli_path is None a default of
-                              "/usr/local/secrethub/secrethub" or "C://Program Files/SecretHub/secrethub.exe" (Windows)
+                              "/usr/local/secrethub/bin/secrethub" or "C://Program Files/SecretHub/bin/secrethub.exe" (Windows)
                               is used.
         :param str config_dir: The path to the configuration directory to use. This directory can be used to store the credential in.
         :param str credential: When supplied, this credential will be used to decrypt your accounts encryption key.
         :param str credential_passphrase: The passphrase used to decrypt the credential.
         """
-        self._cli_path = '/usr/local/secrethub/secrethub'
+        self._cli_path = '/usr/local/secrethub/bin/secrethub'
         if platform.system() == 'Windows':
-            self._cli_path = 'C://Program Files/SecretHub/secrethub.exe'
+            self._cli_path = 'C://Program Files/SecretHub/bin/secrethub.exe'
         if cli_path is not None:
             self._cli_path = cli_path
         self.config_dir = config_dir
