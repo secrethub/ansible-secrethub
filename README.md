@@ -1,3 +1,9 @@
+<hr/>
+<p align="center">
+  <sub><img src="https://1password.com/img/logo-v1.svg" alt="1Password" width="20" /></sub> <b>SecretHub has joined 1Password!</b> Find out more on the <a href="https://secrethub.io/blog/secrethub-joins-1password/">SecretHub blog</a>. 🎉
+</p>
+<hr/>
+
 [![codeclimate maintainability badge](https://api.codeclimate.com/v1/badges/7649852aa7650e331b2a/maintainability)](https://codeclimate.com/github/secrethub/ansible-secrethub/maintainability)
 [![codacy badge](https://api.codacy.com/project/badge/Grade/297a2289bff74c49be800d973eea2923)](https://www.codacy.com/app/SecretHub/ansible-secrethub)
 [![codebeat badge](https://codebeat.co/badges/78df7e54-0cc2-4672-a843-a49c92135892)](https://codebeat.co/projects/github-com-secrethub-ansible-secrethub-master)
